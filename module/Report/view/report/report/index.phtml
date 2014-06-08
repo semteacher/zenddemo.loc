@@ -1,0 +1,30 @@
+<?php
+ // module/Report/view/report/report/index.phtml:
+
+ $title = 'My reports';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+ <p>
+     <a href="<?php echo $this->url('report', array('action'=>'add'));?>">Add new report</a>
+ </p>
+
+ <table class="table">
+ <tr>
+     <th>Report Title</th>
+     <th>Report Name</th>
+     <th>&nbsp;</th>
+ </tr>
+ <?php foreach ($reports as $report) : ?>
+ <tr>
+     <td><?php echo $this->escapeHtml($report->reptitle);?></td>
+     <td><?php echo $this->escapeHtml($report->repname);?></td>
+     <td>
+         <a href="<?php echo $this->url('report',
+             array('action'=>'edit', 'id' => $report->id));?>">Edit</a>
+         <a href="<?php echo $this->url('report',
+             array('action'=>'delete', 'id' => $report->id));?>">Delete</a>
+     </td>
+ </tr>
+ <?php endforeach; ?>
+ </table>
