@@ -18,7 +18,7 @@ use ZfcUser\Entity\UserInterface;
  * An example of how to implement a role aware user entity.
  *
  * @ORM\Entity
- * @ORM\Table(name="users")
+ * @ORM\Table(name="user")
  *
  * @author Tom Oram <tom@scl.co.uk>
  */
@@ -30,7 +30,7 @@ class User implements UserInterface, ProviderInterface
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected $user_id;
 
     /**
      * @var string
@@ -48,7 +48,7 @@ class User implements UserInterface, ProviderInterface
      * @var string
      * @ORM\Column(type="string", length=50, nullable=true)
      */
-    protected $displayName;
+    protected $display_name;
 
     /**
      * @var string
@@ -87,7 +87,7 @@ class User implements UserInterface, ProviderInterface
      */
     public function getId()
     {
-        return $this->id;
+        return $this->user_id;
     }
 
     /**
@@ -99,7 +99,7 @@ class User implements UserInterface, ProviderInterface
      */
     public function setId($id)
     {
-        $this->id = (int) $id;
+        $this->user_id = (int) $id;
     }
 
     /**
@@ -147,13 +147,13 @@ class User implements UserInterface, ProviderInterface
     }
 
     /**
-     * Get displayName.
+     * Get displayname.
      *
      * @return string
      */
     public function getDisplayName()
     {
-        return $this->displayName;
+        return $this->display_name;
     }
 
     /**
@@ -165,7 +165,7 @@ class User implements UserInterface, ProviderInterface
      */
     public function setDisplayName($displayName)
     {
-        $this->displayName = $displayName;
+        $this->display_name = $displayName;
     }
 
     /**

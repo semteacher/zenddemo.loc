@@ -141,7 +141,10 @@ return array(
                     'controller' => array('Configuration\Controller\Configuration'),
                     'roles' => array('admin', 'owner'),
                 ),				
-				
+                array(
+                    'controller' => array('ZfcUserCrud\Controller\Crud'),
+                    'roles' => array('admin', 'owner'),
+                ),				
 				array('controller' => 'Album\Controller\Album', 'roles' => array()),
             ),
 
