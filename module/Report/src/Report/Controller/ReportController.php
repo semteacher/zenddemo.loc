@@ -11,7 +11,9 @@ namespace Report\Controller;
 
  use Zend\Mvc\Controller\AbstractActionController;
  use Zend\View\Model\ViewModel;
-
+ use Report\Model\Report;          
+ use Report\Form\ReportForm;
+ 
  class ReportController extends AbstractActionController
  {
 	protected $reportTable;
@@ -25,15 +27,95 @@ namespace Report\Controller;
 
      public function addAction()
      {
+         $form = new ReportForm();
+         $form->get('submit')->setValue('Add');
+
+         $request = $this->getRequest();
+         if ($request->isPost()) {
+             $report = new Report();
+             $form->setInputFilter($report->getInputFilter());
+             $form->setData($request->getPost());
+
+             if ($form->isValid()) {
+                 $report->exchangeArray($form->getData());
+                 $this->getReportTable()->saveReport($report);
+
+                 // Redirect to list of albums
+                 return $this->redirect()->toRoute('report');
+             }
+         }
+         return array('form' => $form);
      }
 
      public function editAction()
      {
+         $id = (int) $this->params()->fromRoute('id', 0);
+         if (!$id) {
+             return $this->redirect()->toRoute('report', array(
+                 'action' => 'add'
+             ));
+         }
+
+         // Get the Report with the specified id.  An exception is thrown
+         // if it cannot be found, in which case go to the index page.
+         try {
+             $report = $this->getReportTable()->getReport($id);
+         }
+         catch (\Exception $ex) {
+             return $this->redirect()->toRoute('report', array(
+                 'action' => 'index'
+             ));
+         }
+
+         $form  = new ReportForm();
+         $form->bind($report);
+         $form->get('submit')->setAttribute('value', 'Save changes');
+
+         $request = $this->getRequest();
+         if ($request->isPost()) {
+             $form->setInputFilter($report->getInputFilter());
+             $form->setData($request->getPost());
+
+             if ($form->isValid()) {
+                 $this->getReportTable()->saveReport($report);
+
+                 // Redirect to list of albums
+                 return $this->redirect()->toRoute('report');
+             }
+         }
+
+         return array(
+             'id' => $id,
+             'form' => $form,
+         );
      }
 
      public function deleteAction()
      {
+         $id = (int) $this->params()->fromRoute('id', 0);
+         if (!$id) {
+             return $this->redirect()->toRoute('report');
+         }
+
+         $request = $this->getRequest();
+         if ($request->isPost()) {
+             $del = $request->getPost('del', 'No');
+
+             if ($del == 'Yes') {
+                 $id = (int) $request->getPost('id');
+                 $this->getReportTable()->deleteReport($id);
+             }
+
+             // Redirect to list of albums
+             return $this->redirect()->toRoute('report');
+         }
+
+         return array(
+             'id'    => $id,
+             'report' => $this->getReportTable()->getReport($id)
+         );
      }
+
      public function getReportTable()
      {
          if (!$this->reportTable) {
