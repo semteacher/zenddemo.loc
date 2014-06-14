@@ -34,7 +34,7 @@ class RoleController extends AbstractActionController {
         if ($this->getRequest()->isPost()) {
             $searchTerm = $this->params()->fromPost('searchTerm');
             $query
-                    ->where('q.roleId LIKE :search1')
+                    ->where('q.role_id LIKE :search1')
                     ->setParameter('search1', "%{$searchTerm}%")
             ;
         }
@@ -118,7 +118,7 @@ class RoleController extends AbstractActionController {
                 ->setHydrator(new DoctrineHydrator($this->getOM()))
                 ->setObject($role)
                 ->add(array(
-                    'name' => 'roleId',
+                    'name' => 'role_id',
                     'options' => array(
                         'label' => $translator->translate('Role')
                     ),
@@ -133,7 +133,7 @@ class RoleController extends AbstractActionController {
                         'label' => $translator->translate('Parent Role'),
                         'object_manager' => $this->getOM(),
                         'target_class' => $config['roleEntity'],
-                        'property' => 'roleId',
+                        'property' => 'role_id',
                         'empty_option' => 'None'
                     ),
                 ))
@@ -149,7 +149,7 @@ class RoleController extends AbstractActionController {
         $filter = new InputFilter();
         $filter
                 ->add(array(
-                    'name' => 'roleId',
+                    'name' => 'role_id',
                     'required' => true
                 ))
                 ->add(array(

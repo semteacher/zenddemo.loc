@@ -59,7 +59,7 @@ class Role
      *
      * @return string
      */
-    public function getRoleId()
+    public function getRole_id()
     {
         return $this->role_id;
     }
@@ -71,7 +71,7 @@ class Role
      *
      * @return void
      */
-    public function setRoleId($roleId)
+    public function setRole_id($roleId)
     {
         $this->role_id = (string) $roleId;
     }
