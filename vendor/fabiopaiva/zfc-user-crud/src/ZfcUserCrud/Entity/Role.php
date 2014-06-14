@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  - *
  - * @ORM\Entity
- - * @ORM\Table(name="role")
+ - * @ORM\Table(name="user_role")
  - * @author Tom Oram <tom@scl.co.uk>
  - */
 class Role
@@ -24,7 +24,7 @@ class Role
      * @var string
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      */
-    protected $roleId;
+    protected $role_id;
 
     /**
      * @var Role
@@ -61,7 +61,7 @@ class Role
      */
     public function getRoleId()
     {
-        return $this->roleId;
+        return $this->role_id;
     }
 
     /**
@@ -73,7 +73,7 @@ class Role
      */
     public function setRoleId($roleId)
     {
-        $this->roleId = (string) $roleId;
+        $this->role_id = (string) $roleId;
     }
 
     /**

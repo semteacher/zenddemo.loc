@@ -144,7 +144,11 @@ return array(
                 array(
                     'controller' => array('ZfcUserCrud\Controller\Crud'),
                     'roles' => array('admin', 'owner'),
-                ),				
+                ),
+				array(
+                    'controller' => array('ZfcUserCrud\Controller\Role'),
+                    'roles' => array('admin', 'owner'),
+                ),
 				array('controller' => 'Album\Controller\Album', 'roles' => array()),
             ),
 
