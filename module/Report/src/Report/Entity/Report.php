@@ -88,8 +88,8 @@ class Report implements InputFilterAwareInterface
     public function populate($data = array())
     {
         $this->id = $data['id'];
-        $this->artist = $data['repname'];
-        $this->title = $data['title'];
+        $this->repname = $data['repname'];
+        $this->reptitle = $data['reptitle'];
     }
     
     //??? from the past

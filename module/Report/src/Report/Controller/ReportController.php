@@ -59,8 +59,8 @@ namespace Report\Controller;
              $report = new Report();
              $form->setInputFilter($report->getInputFilter());
              $form->setData($request->getPost());
-
              if ($form->isValid()) {
+
                  //$report->exchangeArray($form->getData());
                  //$this->getReportTable()->saveReport($report);
                 $report->populate($form->getData()); 
@@ -69,6 +69,8 @@ namespace Report\Controller;
 
                  // Redirect to list of albums
                  return $this->redirect()->toRoute('report');
+             } else {
+                throw new \Exception("invalid form data");
              }
          }
          return array('form' => $form);
