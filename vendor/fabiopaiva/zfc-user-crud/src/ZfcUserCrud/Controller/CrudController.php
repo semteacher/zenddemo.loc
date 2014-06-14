@@ -41,7 +41,7 @@ class CrudController extends AbstractActionController {
             $query
                     ->where('q.username LIKE :search1')
                     ->orWhere('q.email LIKE :search2')
-                    ->orWhere('q.displayName LIKE :search3')
+                    ->orWhere('q.display_name LIKE :search3')
                     ->setParameter('search1', "%{$searchTerm}%")
                     ->setParameter('search2', "%{$searchTerm}%")
                     ->setParameter('search3', "%{$searchTerm}%")
@@ -154,7 +154,7 @@ class CrudController extends AbstractActionController {
                 ->setHydrator(new DoctrineHydrator($this->getOM()))
                 ->setObject($user)
                 ->add(array(
-                    'name' => 'displayName',
+                    'name' => 'display_name',
                     'options' => array(
                         'label' => $translator->translate('Name')
                     ),
@@ -215,7 +215,7 @@ class CrudController extends AbstractActionController {
                         'label' => $translator->translate('Roles'),
                         'object_manager' => $this->getOM(),
                         'target_class' => $config['roleEntity'],
-                        'property' => 'roleId'
+                        'property' => 'role_id'
                     ),
                 ))
                 ->add(array(
@@ -234,7 +234,7 @@ class CrudController extends AbstractActionController {
                     'required' => true
                 ))
                 ->add(array(
-                    'name' => 'displayName',
+                    'name' => 'display_name',
                     'required' => true
                 ))
                 ->add(array(
