@@ -10,6 +10,7 @@ return array(
 		'BjyAuthorize',
         'RoleUserBridge',
         'ZfcUserDoctrineORM',
+        'ZfcUserCrud',
         'Application',        
 		'Album',
 		'Report',        

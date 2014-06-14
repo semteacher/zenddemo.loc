@@ -1,0 +1,29 @@
+{
+    "name": "fabiopaiva/zfc-user-crud",
+    "description": "Crud interface for ZfcUser with Doctrine ORM.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "zf2"
+    ],
+    "homepage": "https://github.com/fabiopaiva/ZfcUserCrud",
+    "authors": [
+        {
+            "name": "Fábio Paiva",
+            "email": "paiva.fabiofelipe@gmail.com",
+            "homepage": "http://sigweb.net.br"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+	"zf-commons/zfc-user-doctrine-orm": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "ZfcUserCrud": "src/"
+        },
+        "classmap": [
+            "./"
+        ]
+    }
+}
