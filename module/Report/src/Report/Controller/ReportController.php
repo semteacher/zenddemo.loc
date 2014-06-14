@@ -63,6 +63,7 @@ namespace Report\Controller;
              if ($form->isValid()) {
                  //$report->exchangeArray($form->getData());
                  //$this->getReportTable()->saveReport($report);
+                $report->populate($form->getData()); 
                 $this->getEntityManager()->persist($report);
                 $this->getEntityManager()->flush();
 
