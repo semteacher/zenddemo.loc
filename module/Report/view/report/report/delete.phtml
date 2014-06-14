@@ -7,8 +7,8 @@
  <h1><?php echo $this->escapeHtml($title); ?></h1>
 
  <p>Are you sure that you want to delete
-     '<?php echo $this->escapeHtml($report->reptitle); ?>' by
-     '<?php echo $this->escapeHtml($report->repname); ?>'?
+     '<?php echo $this->escapeHtml($report[reptitle]); ?>' by
+     '<?php echo $this->escapeHtml($report[repname]); ?>'?
  </p>
  <?php
  $url = $this->url('report', array(
@@ -18,7 +18,7 @@
  ?>
  <form action="<?php echo $url; ?>" method="post">
  <div>
-     <input type="hidden" name="id" value="<?php echo (int) $report->id; ?>" />
+     <input type="hidden" name="id" value="<?php echo (int) $report[id]; ?>" />
      <input type="submit" name="del" value="Yes" />
      <input type="submit" name="del" value="No" />
  </div>

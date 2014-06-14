@@ -11,21 +11,42 @@ namespace Report\Controller;
 
  use Zend\Mvc\Controller\AbstractActionController;
  use Zend\View\Model\ViewModel;
- use Report\Model\Report;          
+// use Report\Model\Report;          
  use Report\Form\ReportForm;
  
  use Doctrine\ORM\EntityManager; //doctrine
+ use Report\Entity\Report;
 
  class ReportController extends AbstractActionController
  {
-	protected $reportTable;
+	//protected $reportTable;
+    /**
+     * @var Doctrine\ORM\EntityManager
+     */    
     protected $em;
  
+     //doctrine 
+    public function getEntityManager()
+    {
+        if (null === $this->em) {
+            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+        }
+        return $this->em;
+    }
+
+    public function setEntityManager(EntityManager $em)
+    {
+        $this->em = $em;
+    }    
+    
      public function indexAction()
      {
-	          return new ViewModel(array(
-             'reports' => $this->getReportTable()->fetchAll(),
-         ));
+//	          return new ViewModel(array(
+//             'reports' => $this->getReportTable()->fetchAll(),
+//         ));
+            return new ViewModel(array(
+            'reports' => $this->getEntityManager()->getRepository('Report\Entity\Report')->findAll()
+        ));
      }
 
      public function addAction()
@@ -40,8 +61,10 @@ namespace Report\Controller;
              $form->setData($request->getPost());
 
              if ($form->isValid()) {
-                 $report->exchangeArray($form->getData());
-                 $this->getReportTable()->saveReport($report);
+                 //$report->exchangeArray($form->getData());
+                 //$this->getReportTable()->saveReport($report);
+                $this->getEntityManager()->persist($report);
+                $this->getEntityManager()->flush();
 
                  // Redirect to list of albums
                  return $this->redirect()->toRoute('report');
@@ -62,7 +85,10 @@ namespace Report\Controller;
          // Get the Report with the specified id.  An exception is thrown
          // if it cannot be found, in which case go to the index page.
          try {
-             $report = $this->getReportTable()->getReport($id);
+             //$report = $this->getReportTable()->getReport($id);
+             $report = $this->getEntityManager()->find('Report\Entity\Report', $id);
+
+
          }
          catch (\Exception $ex) {
              return $this->redirect()->toRoute('report', array(
@@ -80,9 +106,10 @@ namespace Report\Controller;
              $form->setData($request->getPost());
 
              if ($form->isValid()) {
-                 $this->getReportTable()->saveReport($report);
-
-                 // Redirect to list of albums
+                 //$this->getReportTable()->saveReport($report);
+                 $form->bindValues();
+                 $this->getEntityManager()->flush();
+                 // Redirect to list of reports
                  return $this->redirect()->toRoute('report');
              }
          }
@@ -106,34 +133,36 @@ namespace Report\Controller;
 
              if ($del == 'Yes') {
                  $id = (int) $request->getPost('id');
-                 $this->getReportTable()->deleteReport($id);
+                 $report = $this->getEntityManager()->find('Report\Entity\Report', $id);
+                 //$this->getReportTable()->deleteReport($id);
+                if ($report) {
+                    $this->getEntityManager()->remove($report);
+                    $this->getEntityManager()->flush();
+                }                 
              }
 
-             // Redirect to list of albums
+             // Redirect to list of reports
              return $this->redirect()->toRoute('report');
          }
 
+         //return array(
+         //    'id'    => $id,
+         //    'report' => $this->getReportTable()->getReport($id)
+         //);
          return array(
-             'id'    => $id,
-             'report' => $this->getReportTable()->getReport($id)
-         );
+            'id' => $id,
+            'report' => $this->getEntityManager()->find('Report\Entity\Report', $id)->getArrayCopy()
+        );
      }
      
-    //doctrine 
-    public function getEntityManager()
-    {
-    if (null === $this->em) {
-        $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
-    }
-    return $this->em;
-    }
+
     
-     public function getReportTable()
-     {
-         if (!$this->reportTable) {
-             $sm = $this->getServiceLocator();
-             $this->reportTable = $sm->get('Report\Model\ReportTable');
-         }
-         return $this->reportTable;
-     }	 
+//     public function getReportTable()
+//     {
+//         if (!$this->reportTable) {
+//             $sm = $this->getServiceLocator();
+//             $this->reportTable = $sm->get('Report\Model\ReportTable');
+//         }
+//         return $this->reportTable;
+//     }	 
  }
