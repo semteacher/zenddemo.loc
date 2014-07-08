@@ -44,6 +44,7 @@ class AlbumAnotController extends AbstractActionController
         $viewmodel = new ViewModel();
        // $form       = $this->getForm();
         $form = new AlbumForm();
+        $form->get('submit')->setAttribute('value', 'Add');
         if ($id > 0) {
             try {
                 $album = $this->getAlbumTable()->getAlbum($id);

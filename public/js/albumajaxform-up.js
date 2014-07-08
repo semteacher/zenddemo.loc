@@ -12,7 +12,7 @@ $(function(){
         //if by ajax
         //check by ajax : validatepostajaxAction
         $.post(urlform,
-            { 'name' : $('input[name=name]').val() }, function(itemJson){
+            { 'title' : $('input[name=title]').val() }, function(itemJson){
 
                 var error = false;
 
