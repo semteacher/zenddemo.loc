@@ -38,9 +38,23 @@ class AlbumAnotController extends AbstractActionController
 
     public function showformAction()
     {
+        $id = (int) $this->params()->fromRoute('id', 0);
+//var_dump($id);
+//        die;
         $viewmodel = new ViewModel();
        // $form       = $this->getForm();
         $form = new AlbumForm();
+        if ($id > 0) {
+            try {
+                $album = $this->getAlbumTable()->getAlbum($id);
+                $form->bind($album);
+                $form->get('submit')->setAttribute('value', 'Edit');
+            }
+            catch (\Exception $ex) {
+
+            }
+        }
+
         $request = $this->getRequest();
 
         //disable layout if request by Ajax
@@ -60,8 +74,15 @@ class AlbumAnotController extends AbstractActionController
                     $album = new Album();
                     $album->exchangeArray($form->getData());
                     $this->getAlbumTable()->saveAlbum($album);
+
                     //update view?
                     return $this->redirect()->toRoute('album');
+
+                    // makes disable renderer
+                    //$this->_helper->viewRenderer->setNoRender();
+	                //makes disable layout
+    	            //$this->_helper->getHelper('layout')->disableLayout();
+                    //return $response;
                 }
             }
         }

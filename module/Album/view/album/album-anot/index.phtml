@@ -18,8 +18,7 @@
      <a id="showform" href="<?php echo $this->url('album',
          array('action'=>'showform', 'controller'=>'albumAnot')); ?>">Show Form</a>
 
-     <!-- empty div to save dialog temporary -->
-<div id="winpopup"></div>
+
  </p>
 
  <table class="table">
@@ -33,11 +32,13 @@
      <td><?php echo $this->escapeHtml($album->title);?></td>
      <td><?php echo $this->escapeHtml($album->artist);?></td>
      <td>
-         <a href="<?php echo $this->url('album',
-             array('action'=>'edit', 'id' => $album->id));?>">Edit</a>
+         <a id="showform" href="<?php echo $this->url('album',
+             array('action'=>'showform', 'controller'=>'albumAnot', 'id' => $album->id));?>">Edit</a>
          <a href="<?php echo $this->url('album',
              array('action'=>'delete', 'id' => $album->id));?>">Delete</a>
      </td>
  </tr>
  <?php endforeach; ?>
  </table>
+<!-- empty div to save dialog temporary -->
+<div id="winpopup"></div>
