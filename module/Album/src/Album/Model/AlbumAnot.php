@@ -1,43 +1,91 @@
 <?php
 namespace Album\Model;
 
- // Add these import statements
-// use Zend\InputFilter\InputFilter;
-// use Zend\InputFilter\InputFilterAwareInterface;
-// use Zend\InputFilter\InputFilterInterface;
- use Zend\Form\Annotation;
+// Add these import statements
+use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterInterface;
 
- /**
-  * @Annotation\Hydrator("Zend\Stdlib\Hydrator\ObjectProperty")
-  * @Annotation\Name("AlbumAnot")
-  */
- class AlbumAnot
- {
-     /**
-      * @Annotation\Exclude()
-      */
-     public $id;
-     /**
-      * @Annotation\Type("Zend\Form\Element\Text")
-      * @Annotation\Required({"required":"true" })
-      * @Annotation\Filter({"name":"StripTags"})
-      * @Annotation\Filter({"name":"StringTrim"})
-      * @Annotation\Validator({"name":"StringLength", "options":{"min":"1", "max":"100", "encoding":"UTF-8"}})
-      * @Annotation\Options({"label":"Artist Name:"})
-      */
-     public $artist;
-     /**
-      * @Annotation\Type("Zend\Form\Element\Text")
-      * @Annotation\Required({"required":"true" })
-      * @Annotation\Filter({"name":"StripTags"})
-      * @Annotation\Filter({"name":"StringTrim"})
-      * @Annotation\Validator({"name":"StringLength", "options":{"min":"1", "max":"100", "encoding":"UTF-8"}})
-      * @Annotation\Options({"label":"Album Title:"})
-      */
-     public $title;
-     /**
-      * @Annotation\Type("Zend\Form\Element\Submit")
-      * @Annotation\Attributes({"value":"Submit"})
-      */
-     public $submit;
- }
+
+class AlbumAnot implements InputFilterAwareInterface
+{
+    public $id;
+    public $artist;
+    public $title;
+    protected $inputFilter;
+
+    public function exchangeArray($data)
+    {
+        $this->id     = (isset($data['id']))     ? $data['id']     : null;
+        $this->artist = (isset($data['artist'])) ? $data['artist'] : null;
+        $this->title  = (isset($data['title']))  ? $data['title']  : null;
+    }
+
+    public function getArrayCopy()
+    {
+        return get_object_vars($this);
+    }
+
+    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        throw new \Exception("Not used");
+    }
+
+    public function getInputFilter()
+    {
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+
+            $inputFilter->add(array(
+                'name'     => 'id',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'Int'),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'artist',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'title',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+
+            $this->inputFilter = $inputFilter;
+        }
+
+        return $this->inputFilter;
+    }
+
+}

@@ -9,8 +9,9 @@ namespace Album\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Album\Model\AlbumAnot;
-use Zend\Form\Annotation\AnnotationBuilder;
+use Album\Model\Album;
+use Album\Form\AlbumForm;
+//use Zend\Form\Annotation\AnnotationBuilder;
 
 class AlbumAnotController extends AbstractActionController
 {
@@ -23,12 +24,10 @@ class AlbumAnotController extends AbstractActionController
 
     protected function getForm()
     {
-        $builder    = new AnnotationBuilder();
-        $entity     = new AlbumAnot();
-        $form       = $builder->createForm($entity);
-var_dump($entity);
-var_dump($form);
-        die;
+     //   $builder    = new AnnotationBuilder();
+     //   $entity     = new AlbumAnot();
+     //   $form       = $builder->createForm($entity);
+
         return $form;
     }
 
@@ -40,7 +39,8 @@ var_dump($form);
     public function showformAction()
     {
         $viewmodel = new ViewModel();
-        $form       = $this->getForm();
+       // $form       = $this->getForm();
+        $form = new AlbumForm();
         $request = $this->getRequest();
 
         //disable layout if request by Ajax
@@ -54,7 +54,14 @@ var_dump($form);
                 $form->setData($request->getPost());
                 if ($form->isValid()){
                     //save to db <span class="wp-smiley emoji emoji-wink" title=";)">;)</span>
-                    $this->savetodb($form->getData());
+
+                    //$this->savetodb($form->getData());
+                    //save data
+                    $album = new Album();
+                    $album->exchangeArray($form->getData());
+                    $this->getAlbumTable()->saveAlbum($album);
+                    //update view?
+                    return $this->redirect()->toRoute('album');
                 }
             }
         }
@@ -71,7 +78,8 @@ var_dump($form);
 
     public function validatepostajaxAction()
     {
-        $form    = $this->getForm();
+       // $form    = $this->getForm();
+        $form = new AlbumForm();
         $request = $this->getRequest();
         $response = $this->getResponse();
 
