@@ -34,3 +34,21 @@ echo $this->inlineScript()->prependFile($this->basePath() . '/js/alpbumprocessin
  </tr>
  <?php endforeach; ?>
  </table>
+ <div id="EditAlbum">
+ <?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Edit album';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<form id="editAlbumForm" action="editAjax" method="post">
+ <div>
+     <input id="albumid" type="hidden" name="id" value="" />
+     <input id="albumtitle" type="text" name="title" value="" />
+     <input id="albumartist" type="text" name="artist" value="" />
+     <input id="submitbutton" type="submit" name="submit" value="Go" />
+ </div>
+ </form>
+ </div>

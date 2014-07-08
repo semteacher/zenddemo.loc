@@ -48,6 +48,29 @@ namespace Album\Controller;
      
      }
 
+     public function addAjaxAction()
+     {
+         $form = new AlbumForm();
+         $form->get('submit')->setValue('Add');
+
+         $request = $this->getRequest();
+         if ($request->isPost()) {
+             $album = new Album();
+             $form->setInputFilter($album->getInputFilter());
+             $form->setData($request->getPost());
+
+             if ($form->isValid()) {
+                 $album->exchangeArray($form->getData());
+                 $this->getAlbumTable()->saveAlbum($album);
+
+                 // Redirect to list of albums
+                 return $this->redirect()->toRoute('album');
+             }
+         }
+         return array('form' => $form);
+     
+     }
+     
      public function editAction()
      {
          $id = (int) $this->params()->fromRoute('id', 0);
@@ -116,7 +139,8 @@ namespace Album\Controller;
          $form->get('submit')->setAttribute('value', 'Edit');
 
          $request = $this->getRequest();
-
+         $response   = $this->getResponse();
+         
          if ($request->isPost()) {
              $form->setInputFilter($album->getInputFilter());
              $form->setData($request->getPost());
@@ -128,11 +152,12 @@ namespace Album\Controller;
                  return $this->redirect()->toRoute('album');
              }
          }
-
-         return array(
-             'id' => $id,
-             'form' => $form,
-         );
+         $response->setContent(\Zend\Json\Json::encode($album));
+         //return array(
+         //    'id' => $id,
+         //    'form' => $form,
+         //);
+         return $response;
      }
 
      public function deleteAction()
