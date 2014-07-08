@@ -150,6 +150,7 @@ return array(
                     'roles' => array('admin', 'owner'),
                 ),
 				array('controller' => 'Album\Controller\Album', 'roles' => array()),
+                array('controller' => 'Album\Controller\AlbumAnot', 'roles' => array()),
             ),
 
             /* If this guard is specified here (i.e. it is enabled), it will block

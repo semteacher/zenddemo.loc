@@ -1,0 +1,47 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: SemenetsA
+ * Date: 08.07.14
+ * Time: 12:15
+ */
+?>
+<script type="text/javascript">
+    var is_xmlhttprequest = <?php echo $this->is_xmlhttprequest; ?>;
+    var urlform           = '<?php echo $this->url('album', array('controller'=>'albumAnot', 'action'=>'validatepostajax')); ?>';
+</script>
+
+<?php echo $this->headScript()->appendFile($this->basePath() . '/js/albumajaxform-up.js'); ?>
+
+<?php
+$title = 'Add Album';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url(
+    'album',
+    array(
+        'action'     => 'showform',
+        'controller' => 'albumAnot'
+    )
+));
+$form->prepare();
+?>
+
+<?php echo $this->form()->openTag($form); ?>
+    <div class="element element_name">
+        <?php echo $this->formRow($form->get('id')); ?>
+    </div>
+    <div class="element element_name">
+        <?php echo $this->formRow($form->get('title')); ?>
+    </div>
+    <div class="element element_name">
+        <?php echo $this->formRow($form->get('artist')); ?>
+    </div>
+    <div class="element element_submit">
+        <?php echo $this->formRow($form->get('submit')); ?>
+    </div>
+<?php echo $this->form()->closeTag(); ?>

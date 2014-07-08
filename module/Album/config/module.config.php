@@ -11,6 +11,7 @@ return array(
      'controllers' => array(
          'invokables' => array(
              'Album\Controller\Album' => 'Album\Controller\AlbumController',
+             'Album\Controller\AlbumAnot' => 'Album\Controller\AlbumAnotController',
          ),
      ),
 
@@ -26,7 +27,7 @@ return array(
                          'id'     => '[0-9]+',
                      ),
                      'defaults' => array(
-                         'controller' => 'Album\Controller\Album',
+                         'controller' => 'Album\Controller\AlbumAnot',
                          'action'     => 'index',
                      ),
                  ),
